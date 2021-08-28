@@ -11,7 +11,6 @@
   "author": "João Hudson",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mysql2": "^2.3.0"
   }

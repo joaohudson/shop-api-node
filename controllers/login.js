@@ -18,6 +18,11 @@ function generateToken(){
 
 function splitCookies(req){
     const cookies = req.headers['cookie'];
+
+    if(!cookies){
+        return {};
+    }
+
     const listStr = cookies.split(';');
     const result = {};
 
