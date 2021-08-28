@@ -5,10 +5,10 @@ const create = async (req, res) => {
     try{
         const user = new User(req.body);
         await UserRepository.add(user);
-        res.send({ok: true});
+        res.json({ok: true});
     }
     catch(e){
-        res.send({ok: false, message: e});
+        res.json({ok: false, message: e});
     }
 }
 
@@ -24,7 +24,12 @@ const listAll = async (req, res) => {
 
 const find = async (req, res) => {
     try{
-        const user = await UserRepository.getByLogin(req.query.login, User.clean);
+        const login = req.query.login;
+        
+        if(!login)
+            throw 'Login não informado!';
+
+        const user = await UserRepository.getByLogin(login, User.clean);
         res.json({ok: true, data: user});
     }
     catch(e){
