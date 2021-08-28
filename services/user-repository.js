@@ -50,13 +50,12 @@ const getAll = async (filter) => {
 const getByLogin = async (login, filter) => {
     const db = await GetInstance();
     const [query] = await db.query('SELECT * FROM User WHERE login = ?;', [login]);
-    const user = filter ? filter(query[0]) : query[0];
 
-    if(!user){
-        throw 'Usuário não existe!';
+    if(query.length == 0){
+        throw 'Esse login não existe!';
     }
 
-    return user;
+    return filter ? filter(query[0]) : query[0];
 }
 
 export default {
