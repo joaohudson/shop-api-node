@@ -4,14 +4,14 @@ import express from 'express'
 
 const userRoutes = express.Router();
 
-userRoutes.use('/user/', loginController.athenticated);
+userRoutes.use('/user/private', loginController.athenticated);
 
 userRoutes.post('/login', loginController.login);
 
 userRoutes.post('/user/sigin', userController.create);
 
-userRoutes.get('/user/listAll', userController.listAll);
+userRoutes.get('/user/private/listAll', userController.listAll);
 
-userRoutes.get('/user/find', userController.find);
+userRoutes.get('/user/private/find', userController.find);
 
 export default userRoutes
