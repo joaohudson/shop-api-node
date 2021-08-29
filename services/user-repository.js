@@ -6,6 +6,12 @@ async function getUserByLogin(login){
     return query.length == 0 ? null : query[0];
 }
 
+async function getUserById(id){
+    const db = await GetInstanceDb();
+    const [query] = await db.query('SELECT * FROM User WHERE id = ?;', [id]);
+    return query.length == 0 ? null : query[0];
+}
+
 const add = async (user) => {
     const db = await GetInstanceDb();
 
@@ -13,7 +19,18 @@ const add = async (user) => {
         throw 'Usuário já existe!';
     }
     
-    db.query('INSERT INTO User (gender, name, age, login, password) VALUES(?,?,?,?,?);', [user.gender, user.name, user.age, user.login, user.password]);
+    await db.query('INSERT INTO User (gender, name, age, login, password) VALUES(?,?,?,?,?);', [user.gender, user.name, user.age, user.login, user.password]);
+}
+
+const eraseById = async (id) => {
+    const db = await GetInstanceDb();
+    const user = await getUserById(id);
+
+    if(!user){
+        throw 'Este usuário não existe!';
+    }
+
+    await db.query('DELETE FROM User WHERE id = ?;', [id]);
 }
 
 const eraseByLogin = async (login) =>{
@@ -24,7 +41,7 @@ const eraseByLogin = async (login) =>{
         throw 'Usuário não existe!';
     }
 
-    db.query('DELETE FROM User WHERE id = ?;', [user.id]);
+    await db.query('DELETE FROM User WHERE id = ?;', [user.id]);
 }
 
 const getAll = async (filter) => {
@@ -61,6 +78,7 @@ const getByLogin = async (login, filter) => {
 export default {
     add,
     eraseByLogin,
+    eraseById,
     getByLogin,
     getAll
 }
