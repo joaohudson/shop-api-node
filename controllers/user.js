@@ -1,10 +1,10 @@
 import User from '../models/user.js'
 import UserRepository from './../services/user-repository.js'
+import userRegistrationService from '../services/user-registration-service.js';
 
 const create = async (req, res) => {
     try{
-        const user = new User(req.body);
-        await UserRepository.add(user);
+        await userRegistrationService.registre(req.body);
         res.json({ok: true});
     }
     catch(e){
