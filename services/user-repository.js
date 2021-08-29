@@ -1,29 +1,30 @@
-import User from './../models/user.js'
 import { GetInstance } from '../data/database.js';
 
-const add = async (user) => {
-    User.validate(user);
+async function getUserByLogin(login){
     const db = await GetInstance();
-    const [query] = await db.query('SELECT * FROM User WHERE login = ?;', [user.login]);
-    const exists = query.length > 0;
+    const [query] = await db.query('SELECT * FROM User WHERE login = ?;', [login]);
+    return query.length == 0 ? null : query[0];
+}
 
-    if(exists){
+const add = async (user) => {
+    const db = await GetInstance();
+
+    if(await getUserByLogin(user.login)){
         throw 'Usuário já existe!';
     }
     
-    db.query('INSERT INTO User (gender, name, age, login, password) VALUES(?,?,?,?,?)', [user.gender, user.name, user.age, user.login, user.password]);
+    db.query('INSERT INTO User (gender, name, age, login, password) VALUES(?,?,?,?,?);', [user.gender, user.name, user.age, user.login, user.password]);
 }
 
 const eraseByLogin = async (login) =>{
     const db = await GetInstance();
-
-    const user = await db.query('SELECT FROM User WHERE login = ?', [login]);
+    const user = await getUserByLogin(login);
     
     if(!user){
         throw 'Usuário não existe!';
     }
 
-    db.query('DELETE FROM User WHERE name = ?', [login]);
+    db.query('DELETE FROM User WHERE id = ?;', [user.id]);
 }
 
 const getAll = async (filter) => {
@@ -48,14 +49,13 @@ const getAll = async (filter) => {
 }
 
 const getByLogin = async (login, filter) => {
-    const db = await GetInstance();
-    const [query] = await db.query('SELECT * FROM User WHERE login = ?;', [login]);
+    const user = await getUserByLogin(login);
 
-    if(query.length == 0){
-        throw 'Esse login não existe!';
+    if(!user){
+        throw 'Esse usuário não existe!';
     }
 
-    return filter ? filter(query[0]) : query[0];
+    return filter ? filter(user) : user;
 }
 
 export default {
