@@ -50,8 +50,7 @@ const athenticated = (req, res, next) => {
 const login = async (req, res) => {
     try{
         const session = new Session(req.body);
-        Session.validate(session);
-        const user = userRepository.getByLogin(session.login);
+        const user = await userRepository.getByLogin(session.login);
         
         const token = generateToken();
 

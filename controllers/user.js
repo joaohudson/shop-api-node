@@ -14,7 +14,7 @@ const create = async (req, res) => {
 
 const listAll = async (req, res) => {
     try{    
-        const result = await UserRepository.getAll(User.clean);
+        const result = await UserRepository.getAll(User.toDto);
         res.json({ok: true, data: result});
     }
     catch(e){
@@ -29,7 +29,7 @@ const find = async (req, res) => {
         if(!login)
             throw 'Login não informado!';
 
-        const user = await UserRepository.getByLogin(login, User.clean);
+        const user = await UserRepository.getByLogin(login, User.toDto);
         res.json({ok: true, data: user});
     }
     catch(e){
