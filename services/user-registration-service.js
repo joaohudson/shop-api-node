@@ -19,6 +19,16 @@ const registre = async (data) => {
     }
 }
 
+const unregistre = async (userId) => {
+    try{
+        await contaRepository.eraseByUserId(userId);
+        await userRepository.eraseById(userId);
+    }catch(e){
+        throw e;
+    }
+}
+
 export default {
-    registre
+    registre,
+    unregistre
 }
