@@ -13,7 +13,7 @@ const add = async (conta, userId) => {
         throw 'Este usuário já possui uma conta';
     }
 
-    db.query('INSERT INTO Conta(balance, id_User) VALUES(?,?);', [conta.balance, userId]);
+    await db.query('INSERT INTO Conta(balance, id_User) VALUES(?,?);', [conta.balance, userId]);
 }
 
 const findByUserId = async (userId) => {
@@ -27,10 +27,10 @@ const findByUserId = async (userId) => {
 }
 
 const eraseByUserId = async (userId) => {
-    const conta = getByUserId(userId);
+    const conta = await getByUserId(userId);
     const db = await GetInstanceDb();
 
-    db.query('DELETE FROM Conta WHERE id = ?;', conta.id);
+    await db.query('DELETE FROM Conta WHERE id = ?;', [conta.id]);
 }
 
 export default {
