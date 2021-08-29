@@ -14,4 +14,6 @@ userRoutes.get('/user/private/listAll', userController.listAll);
 
 userRoutes.get('/user/private/find', userController.find);
 
+userRoutes.get('/user/private/erase', userController.erase);
+
 export default userRoutes
