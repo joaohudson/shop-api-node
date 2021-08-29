@@ -37,8 +37,26 @@ const find = async (req, res) => {
     }
 }
 
+const erase = async (req, res) => {
+    try{
+        const userId = req.query.userId;
+
+        if(!userId){
+            throw 'Id do usuário não informado!';
+        }
+
+        await userRegistrationService.unregistre(userId);
+        
+        res.json({ok: true});
+
+    }catch(e){
+        res.json({ok: false, message: e});
+    }
+}
+
 export default {
     create,
     listAll,
-    find
+    find,
+    erase
 }
