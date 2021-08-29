@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "basic-api",
+  "name": "shop-api",
   "version": "1.0.0",
   "description": "Simple CRUD in Node",
   "main": "index.js",
