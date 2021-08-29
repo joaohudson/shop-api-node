@@ -1,13 +1,13 @@
-import { GetInstance } from "../data/database.js";
+import { GetInstanceDb } from "../data/database.js";
 
 async function getByUserId(userId){
-    const db = await GetInstance();
+    const db = await GetInstanceDb();
     const [query] = await db.query('SELECT * FROM Conta WHERE id_User = ?;', [userId]);
     return query.length == 0 ? null : query[0];
 }
 
 const add = async (conta, userId) => {
-    const db = await GetInstance();
+    const db = await GetInstanceDb();
     
     if(await getByUserId(userId)){
         throw 'Este usuário já possui uma conta';
@@ -28,7 +28,7 @@ const findByUserId = async (userId) => {
 
 const eraseByUserId = async (userId) => {
     const conta = getByUserId(userId);
-    const db = await GetInstance();
+    const db = await GetInstanceDb();
 
     db.query('DELETE FROM Conta WHERE id = ?;', conta.id);
 }

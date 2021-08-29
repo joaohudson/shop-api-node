@@ -1,13 +1,13 @@
-import { GetInstance } from '../data/database.js';
+import { GetInstanceDb } from '../data/database.js';
 
 async function getUserByLogin(login){
-    const db = await GetInstance();
+    const db = await GetInstanceDb();
     const [query] = await db.query('SELECT * FROM User WHERE login = ?;', [login]);
     return query.length == 0 ? null : query[0];
 }
 
 const add = async (user) => {
-    const db = await GetInstance();
+    const db = await GetInstanceDb();
 
     if(await getUserByLogin(user.login)){
         throw 'Usuário já existe!';
@@ -17,7 +17,7 @@ const add = async (user) => {
 }
 
 const eraseByLogin = async (login) =>{
-    const db = await GetInstance();
+    const db = await GetInstanceDb();
     const user = await getUserByLogin(login);
     
     if(!user){
@@ -29,7 +29,7 @@ const eraseByLogin = async (login) =>{
 
 const getAll = async (filter) => {
 
-        const db = await GetInstance();
+        const db = await GetInstanceDb();
 
         const [query] = await db.query('SELECT * FROM User;');
         const result = [];

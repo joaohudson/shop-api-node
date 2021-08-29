@@ -10,7 +10,7 @@ const config = {
 
 let instance = null;
 
-export const GetInstance = async () => {
+export const GetInstanceDb = async () => {
     if(instance){
         return instance;
     }
