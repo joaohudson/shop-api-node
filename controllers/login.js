@@ -39,7 +39,7 @@ const athenticated = (req, res, next) => {
     const token = cookies['token'];
     const sessionRecord = tokens[token];
 
-    if(sessionRecord && Date.now() - sessionRecord.date < 30000){
+    if(sessionRecord && Date.now() - sessionRecord.date < 300000){
         next();
     }
     else{
