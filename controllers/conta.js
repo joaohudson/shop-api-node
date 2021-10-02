@@ -2,7 +2,7 @@ import contaRepository from "../services/conta-repository.js"
 
 const find = async (req, res) => {
     try{
-        const userId = req.query.userId;
+        const userId = req.userId;
         
         if(!userId){
             throw 'Id do usuário não informado!';
