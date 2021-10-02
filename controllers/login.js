@@ -40,6 +40,7 @@ const athenticated = (req, res, next) => {
     const sessionRecord = tokens[token];
 
     if(sessionRecord && Date.now() - sessionRecord.date < 300000){
+        req.userId = sessionRecord.userId;
         next();
     }
     else{
