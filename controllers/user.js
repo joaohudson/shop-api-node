@@ -12,24 +12,14 @@ const create = async (req, res) => {
     }
 }
 
-const listAll = async (req, res) => {
-    try{    
-        const result = await UserRepository.getAll(User.toDto);
-        res.json({ok: true, data: result});
-    }
-    catch(e){
-        res.json({ok: false, message: e});
-    }
-}
-
 const find = async (req, res) => {
     try{
-        const login = req.query.login;
+        const login = req.userId;
         
         if(!login)
-            throw 'Login não informado!';
+            throw 'Você não tem acesso a este recurso!';
 
-        const user = await UserRepository.getByLogin(login, User.toDto);
+        const user = await UserRepository.getById(login, User.toDto);
         res.json({ok: true, data: user});
     }
     catch(e){
@@ -39,10 +29,10 @@ const find = async (req, res) => {
 
 const erase = async (req, res) => {
     try{
-        const userId = req.query.userId;
+        const userId = req.userId;
 
         if(!userId){
-            throw 'Id do usuário não informado!';
+            throw 'Você não tem acesso a este recurso!';
         }
 
         await userRegistrationService.unregistre(userId);
@@ -56,7 +46,6 @@ const erase = async (req, res) => {
 
 export default {
     create,
-    listAll,
     find,
     erase
 }
