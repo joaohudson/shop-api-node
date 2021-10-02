@@ -75,10 +75,21 @@ const getByLogin = async (login, filter) => {
     return filter ? filter(user) : user;
 }
 
+const getById = async (userId, filter) => {
+    const user = await getUserById(userId);
+
+    if(!user){
+        throw 'Esse usuário não existe!';
+    }
+
+    return user;
+}
+
 export default {
     add,
     eraseByLogin,
     eraseById,
     getByLogin,
+    getById,
     getAll
 }
